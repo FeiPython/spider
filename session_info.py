@@ -24,7 +24,7 @@ def request_200(want_url, data=None, req=1, post_headers=None):
         # "accept-encoding": "gzip, deflate, br",
         "accept-language": "zh-CN,zh;q=0.9",
         "cache-control": "max-age=0",
-        "cookie": '__jdv=122270672|direct|-|none|-|1565171709552; __jdu=15651717095511398966639; shshshfpa=2e7547b8-4a8a-65e7-4158-d6ad066aaa57-1565171709; shshshfpb=svTxBCCtomHkxfy5lqJReQg%3D%3D; areaId=1; ipLoc-djd=1-72-0-0; __jdc=122270672; shshshfp=77a380d2816266a741f7eae37bb28e8a; cid=NXdMNDU2NnRFOTU0N2tONTE4OHpBODU0MXJINjk2MmJTMTkyM3RVODk2NGFKNzU2; pin=h_17349802237; _tp=AvJUiKN3rCfAkfebtDlXfA%3D%3D; _pst=h_17349802237; pinId=QbVYLGtN-GJcroWPoY-I2A; unick=h_173*****237; 3AB9D23F7A4B3C9B=KEATUY7RMH6TIVCAWDGTVDQF22YUSKT3INO3S7XNU2E5WRRMOHN4ARQLVACCIAQGFPZFCSOMG6ZPUFABZPDMI3YL4Y; mba_muid=15651717095511398966639; wlfstk_smdl=keq5kwxxxk53e1asweytliurvz5xx65i; TrackID=1HF19huHmJdOV3NOP94XQ7P50yYDOmd_KOrFX5ZBau6jJ9Pti5pmuVxBFUI2sD_y-tkYUqSt8ip8P9D9sC0eo2g; ceshi3.com=000; __jda=122270672.15651717095511398966639.1565171710.1565688977.1565745474.9; RT="z=1&dm=jd.com&si=68x8gks8ckh&ss=jz7tnycn&sl=0&tt=0&r=ac74bdbed32fbe2b4198b4ab4058fdb0&ul=2rc3l0&hd=2rc3lq"; __jdb=122270672.10.15651717095511398966639|9.1565745474; thor=ECAE387F4272DD4AD8AD80A3B6066A15AEFB2D820EA7665B13943A0AF6B714837A60C484BB106371FB53A6E664609604774306220F3ABC234A5BDD6ABE1F805E8EE25FFAE77175346469A0EB01287072D79C60E1C9889392E8F29F82C49548B481D23492243978F333C27074F7D88FCB63E4F02E2CE17090B02E1065320786591D4BB05ED97CB405F3A06206986F74BA',
+        "cookie": '__jdv=122270672|direct|-|none|-|1565171709552; ..............................',
 
         "user-agent": user_agent
 
@@ -75,7 +75,7 @@ def get_remindCount(url):
 def get_session(session_list):
     while True:
         try:
-            conn = pymysql.connect(host='10.10.10.77', user='hanruofei', password='hrf123', db='epai_spider_2019_hanruofei',
+            conn = pymysql.connect(host='.....', user='......', password='......', db='......',
                                    charset="utf8")
             cur = conn.cursor()
             break
@@ -106,10 +106,7 @@ def get_session(session_list):
             end_time = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
         crawl_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         # 专场提醒获取
-        # remindCount_url = 'https://api.m.jd.com/api?appid=auctionRemind&functionId=queryRemind&body=%7B%22id%22%3A%22{}%22%2C%22remindType%22%3A2%7D'.format(session_id)
-        # remindCount = get_remindCount(remindCount_url)
         remindCount = ''
-        # print(session_id, s_name, status, access, remindCount, bidCount, crawl_time, proCount, end_time)
         sql = '''INSERT INTO base_collect_sessions
                     ( 
                     SESSION_ID, 
@@ -176,7 +173,7 @@ def get_item_num(i_id):
 def insert_SQL(session_id, i_id, i_name, i_access, i_accessensure, i_remind, i_bid, crawl_time):
     while True:
         try:
-            conn = pymysql.connect(host='10.10.10.77', user='hanruofei', password='hrf123', db='epai_spider_2019_hanruofei',
+            conn = pymysql.connect(host='.....', user='....', password='....', db='....',
                                    charset="utf8")
             cur = conn.cursor()
             break
@@ -232,7 +229,6 @@ def get_item(session_id):
             continue
         crawl_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         insert_SQL(session_id, i_id, i_name, i_access, i_accessensure, i_remind, i_bid, crawl_time)
-        # print(session_id, i_id, i_name, i_access, i_accessensure, i_remind, i_bid, crawl_time)
         # break
     for pro_list in pro_lists:
         i_id = pro_list.xpath('./@k')[0] if pro_list.xpath('./@k') else ''
@@ -240,13 +236,11 @@ def get_item(session_id):
         if i_id:
             i_access, i_accessensure, i_bid = get_item_num(i_id)
             # 获取提醒人数
-            # i_remind = get_item_remindCount(i_id)
             i_remind = ''
         else:
             continue
         crawl_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
         insert_SQL(session_id, i_id, i_name, i_access, i_accessensure, i_remind, i_bid, crawl_time)
-        # print(session_id, i_id, i_name, i_access, i_accessensure, i_remind, i_bid, crawl_time)
         # break
 
 
@@ -257,7 +251,7 @@ def make_excel(now):
     sheet2 = myexcel.add_sheet('拍品数据')
     while True:
         try:
-            conn = pymysql.connect(host='10.10.10.77', user='hanruofei', password='hrf123', db='epai_spider_2019_hanruofei',
+            conn = pymysql.connect(host='....', user='.....', password='....', db='....',
                                    charset="utf8")
             cur = conn.cursor()
             break
@@ -295,7 +289,6 @@ def make_excel(now):
     i += 1
     sql = '''SELECT * FROM base_collect_sessions WHERE COLLECT_SESSION_ID > {} ORDER BY COLLECT_SESSION_ID;
     '''.format(session_end)
-    #  WHERE S_COLLECT_TIME LIKE '%s-%02d-%02d %02d%s' % (now.year, now.month, now.day, now.hour, '%')
     try:
         cur.execute(sql)
         result1 = cur.fetchall()
@@ -335,7 +328,6 @@ def make_excel(now):
     i += 1
     sql = '''SELECT * FROM base_collect_items WHERE COLLECT_ITEM_ID > {} ORDER BY COLLECT_ITEM_ID;
     '''.format(item_end)
-    #  WHERE I_COLLECT_TIME LIKE '%s-%02d-%02d %02d%s' % (now.year, now.month, now.day, now.hour, '%')
     try:
         cur.execute(sql)
         result2 = cur.fetchall()
@@ -365,11 +357,6 @@ def make_excel(now):
     save_excel_name = 'D:\project\excel\JD_Datas_%s-%s %s.xls' % (now.month, now.day, now.hour)
     myexcel.save(save_excel_name)
 
-    # try:
-    #     drop_excel_name = 'D:\project\excel\JD_Datas_%s-%s %s.xls' % (now.month, now.day-7, now.hour)
-    #     os.remove(drop_excel_name)
-    # except Exception as e:
-    #     print(e)
 
     send_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
     sql = '''INSERT INTO base_collect_send_id 
@@ -396,17 +383,12 @@ def make_excel(now):
 def send_email(save_excel_name, excel_name):
     # 第三方 SMTP 服务
     mail_host = "smtp.263.net"
-    mail_user = "hanruofei@epailive.com"
-    mail_pass = "epai706"
+    mail_user = "......"
+    mail_pass = "....."
 
-    sender = 'hanruofei@epailive.com'
-    # to_receiver = ['yangfurong@epailive.com']
-    # cc_receiver = ['xieruixin@epailive.com','heshuang@epailive.com','mabinbin@epailive.com']
-    #
-    # 测试
-    # to_receiver = ['hanruofei@epailive.com']
-    to_receiver = ['hanruofei@epailive.com', 'heshuang@epailive.com', 'mabinbin@epailive.com']
-    cc_receiver = ['hanruofei@epailive.com']
+    sender = '......'
+    to_receiver = ['.....', '.....', '......']
+    cc_receiver = ['.....']
 
     receivers = to_receiver + cc_receiver
 
@@ -477,55 +459,8 @@ if __name__ == '__main__':
     start_time = time.time()
     schedule.every().day.at("14:10").do(job_1)
     schedule.every().day.at("21:45").do(job_1)
-    # schedule.every().day.at("13:52").do(job_2)
     schedule.every().thursday.at("14:17").do(job_2)
-    # schedule.every().friday.at("09:55").do(job_2)
-    # schedule.every().day.at("21:52").do(job_2)
-    # job_1()
     while True:
         schedule.run_pending()
         time.sleep(10)
 
-    # job_1()
-
-
-    # print(time.time() - start_time)
-
-'https://paimai.jd.com/json/current/queryCurAlbumInfo?albumIdStr=725304'
-'''
-[
-    {
-        "summary":"英国",
-        "albumName":"古家珍品绘画收藏专场",
-        "albumId":"725304",
-        "auctionStatus":1,
-        "displayStatus":1,
-        "proCount":16,
-        "access":"421",
-        "endTime":1565848800000,
-        "vendorIdName":"易拍全球",
-        "vendorId":704331,
-        "startTime":1564711200000,
-        "dealCount":"0",
-        "templateType":0,
-        "remainTime":157763146,
-        "mainImagePath":"jfs/t1/40849/12/10606/438943/5d42943dE159a51a9/9533e51649d62527.png",
-        "bidCount":"1"
-    }
-]
-'''
-'''
-https://api.m.jd.com/api?jsonp=jQuery6882087&appid=auctionRemind&functionId=queryRemind&body=%7B%22id%22%3A%22725354%22%2C%22remindType%22%3A2%7D&rand=1565692963887&_=1565692961903
-https://api.m.jd.com/api?jsonp=jQuery8429905&appid=auctionRemind&functionId=queryRemind&body=%7B%22id%22%3A%22725354%22%2C%22remindType%22%3A2%7D&rand=1565745475472&_=1565745473399
-https://api.m.jd.com/api?jsonp=jQuery357913&appid=auctionRemind&functionId=queryRemind&body=%7B%22id%22%3A%22725355%22%2C%22remindType%22%3A2%7D&rand=1565746643102&_=1565746641108
-{"status":200,"message":"已设置提醒","data":{"id":7921854,"paimaiId":0,"specialId":725354,"remindType":2,"pin":"h***********7","phone":"173****2237","isBeginRemind":0,"beginRemindStatus":3,"isEndRemind":1,"endRemindStatus":1,"createTime":1565692761000,"lastModifyTime":1565746845000,"endRemindTime":1565760600000,"remindSource":0,"isStockRemind":0,"stockRemindStatus":3},"remindCount":1,"code":0}
-{"status":101,"message":"未发现提醒","data":{"phone":"173****2237"},"remindCount":0,"code":0}
-https://paimai.jd.com/services/currentPriceList.action?albumId=742647&callback=updateCurrData&t=1565754665218&callback=jQuery4018460&_=1565754665219
-'''
-'''
-https://api.m.jd.com/api?appid=paimai&functionId=getPaimaiRealTimeData&body={%22end%22:9,%22paimaiId%22:110688909,%22source%22:0,%22start%22:0}&loginType=3
-https://api.m.jd.com/api?appid=paimai&functionId=getPaimaiRealTimeData&body={%22end%22:9,%22paimaiId%22:110688909,%22source%22:0,%22start%22:0}&loginType=3
-https://api.m.jd.com/api?appid=auctionRemind&functionId=queryRemind&body={%22id%22:110688909,%22remindType%22:1}&loginType=3
-https://api.m.jd.com/api?appid=auctionRemind&functionId=queryRemind&body={"id":110688909,"remindType":1}&loginType=3
-https://api.m.jd.com/api?appid=auctionRemind&functionId=queryRemind&body={"id":110688909,"remindType":1}&loginType=3
-'''
